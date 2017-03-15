@@ -254,6 +254,17 @@
         //          url = gnGlobalSettings.proxyUrl + encodeURIComponent(url);
         //        }
         $http.get(url).success(function(data) {
+
+          /* On GN version 3.2.1 resource.get with parameter access=public
+           * rerturns Base64 encoded version of ows context between double
+           * quotes. This Workaround removes double quotes and decode ows
+           * to xml
+           */
+            if(data.charAt(0) === '"'){
+                var data2 = data.replace(/\"/g,'');
+                var data = atob(data2);
+            }
+
           self.loadContext(data, map);
         });
       };
