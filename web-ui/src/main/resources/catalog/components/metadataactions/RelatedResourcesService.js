@@ -62,6 +62,17 @@
 
           var addWMSToMap = function(link, md) {
             var layerName = $filter('gnLocalized')(link.title);
+
+            /* On Map tab, plus button from search result panel on 'Add Layer' tool is no working
+            *  when related resource was atomaticaly created by 'Save Map' on Matadata register.
+            *  On this situation link object has no title.
+            *  As workaround use link.name.
+            */
+            if(layerName === ''){
+                layerName = link.name;
+            }
+
+
             if (layerName) {
               gnMap.addWmsFromScratch(gnSearchSettings.viewerMap,
                  link.url, layerName, false, md);
